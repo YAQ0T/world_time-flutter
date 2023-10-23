@@ -18,6 +18,7 @@ class _LoadingState extends State<Loading> {
       'location' : instance.location,
       'flag': instance.flag,
       'time': instance.time,
+      'isDayTime': instance.isDayTime,
     });
 
 
@@ -39,7 +40,7 @@ class _LoadingState extends State<Loading> {
     return Scaffold(
       backgroundColor: Colors.blue[900],
       body: Center(
-        child: SpinKitRotatingCircle(
+        child: SpinKitCubeGrid(
           color: Colors.white,
           size: 100.0,
         ),
