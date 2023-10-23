@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 class ChooseLocation extends StatefulWidget {
   const ChooseLocation({super.key});
 
@@ -10,11 +12,6 @@ class _ChooseLocationState extends State<ChooseLocation> {
 
   int counter  = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    print('init state run');
-  }
 
 
   @override
@@ -28,14 +25,23 @@ class _ChooseLocationState extends State<ChooseLocation> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: TextButton(
-        onPressed: (){
-          setState(() {
-            counter += 1;
-          });
+      body: Column(
+        children: [TextButton(
+          onPressed: (){
+            setState(() {
+              counter += 1;
+            });
 
-        },
-        child: Text('$counter'),
+          },
+          child: Text('$counter'),
+        ),
+          const Center(
+            child: const SpinKitRotatingCircle(
+              color: Colors.white,
+              size: 80.0,
+            ),
+          ),
+        ]
       ),
 
     );
