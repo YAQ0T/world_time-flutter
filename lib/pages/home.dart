@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -12,7 +13,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    data = ModalRoute.of(context)! .settings.arguments as Map;
+    data = data.isNotEmpty ? data : ModalRoute.of(context)! .settings.arguments as Map;
 
     String bgImage = data['isDayTime'] ? 'daytime.png' : 'night time.png';
 
@@ -21,21 +22,35 @@ class _HomeState extends State<Home> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/$bgImage"),
+              image: AssetImage(
+            'images/$bgImage'
+          ),
             fit: BoxFit.cover,
           )
         ),
-        child: SafeArea(child:
-        Padding(
+        child: SafeArea(
+          child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 120.0, 0, 0),
           child: Column(
             children: [
               TextButton.icon(
-                onPressed: (){
-                  Navigator.pushNamed(context, '/location');
+                onPressed: () async{
+                  dynamic results = await Navigator.pushNamed(context, '/location');
+                  setState(() {
+                    data = {
+                      'time' : results['time'],
+                      'location' : results['location'],
+                      'isDayTime' : results['isDayTime'],
+                      'flag' : results['flag'],
+                    };
+                  });
                 },
-                icon: const Icon(Icons.edit_location),
-                label: const Text('Edit Location')),
+                icon:  Icon(Icons.edit_location
+                ,color: Colors.grey[300],),
+                label:  Text('Edit Location',
+                style: TextStyle(
+                  color: Colors.grey[300],
+                ),)),
               const SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -45,6 +60,7 @@ class _HomeState extends State<Home> {
                     style: const TextStyle(
                       fontSize: 28.0,
                       letterSpacing: 2.0,
+                      color: Colors.white
                     ),
                   ),
                 ],
@@ -54,10 +70,11 @@ class _HomeState extends State<Home> {
                   data['time'],
                   style: const TextStyle(
                     fontSize: 66.0,
+                    color: Colors.white
                   ),
               ),
 
-            ]
+          ]
             ,
           ),
         ),
